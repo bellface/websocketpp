@@ -196,7 +196,9 @@ public:
         m_io_service = ptr;
         m_external_io_service = true;
         m_acceptor = lib::make_shared<lib::asio::ip::tcp::acceptor>(
-            lib::ref(*m_io_service));
+								    //lib::ref(*m_io_service)
+								    m_io_service->get_executor()
+								    );
 
         m_state = READY;
         ec = lib::error_code();
@@ -855,7 +857,9 @@ protected:
         // Create a resolver
         if (!m_resolver) {
             m_resolver = lib::make_shared<lib::asio::ip::tcp::resolver>(
-                lib::ref(*m_io_service));
+									//lib::ref(*m_io_service)
+									m_io_service->get_executor()
+									);
         }
 
         tcon->set_uri(u);
